@@ -1,7 +1,8 @@
-const Roupas = require('./models/roupa.model');
+const Roupa= require('./model/roupa.model');
 const express  = require ('express');
 const exphbs = require ('express-handlebars');
 const sequelize = require('./config/bd');
+const methodOverride = require('method-override');
 const app = express();
 
 app.engine(
@@ -13,34 +14,27 @@ app.use(
     express.urlencoded({extended: true})
 );
 
-app.post(
-    '/roupas/cadastrar',
-    async (req,res) => {
-        const {peça, tecido, valor, imagem} = req.body;
-    
-    
-
-        await Roupas.create({
-            peça:peça,
-            tecido:tecido,
-            valor:valor,
-            imagem:imagem
-
-        });
-
-        res.send('Roupa cadastrada com sucesso!');
-    }
-);
+app.use(methodOverride('_method'));
 
 app.set(
         'view engine',
         'handlebars'
     );
 
-app.get (
-    '/',
-    (req,res) => {
-        res.send('Testando o express!');
+app.post(
+    '/roupas',
+    async (req,res) => {
+        const {peca, tecido, valor, imagem} = req.body;
+
+        await Roupa.create({
+            peca:peca,
+            tecido:tecido,
+            valor:valor,
+            imagem:imagem
+
+        });
+
+        res.redirect('/roupas');
     }
 );
 
@@ -50,27 +44,64 @@ app.get(
     (req, res) => res.render('cadastrarRoupas')
 );
 
+app.get(
+    '/roupas/:id/editar',
+    async (req,res)=> {
+        const id = req.params.id;
+        let roupa = await Roupa.findByPk(id, {raw:true})
+
+        res.render('editarRoupa',{ roupa })
+    }
+)
+
+app.put(
+    '/roupas/:id',
+    async (req,res) => {
+        const id = req.params.id;
+
+        const {peca,tecido,valor,imagem} = req.body;
+
+        const roupa = await Roupa.findByPk(id)
+
+        roupa.peca= peca;
+        roupa.tecido = tecido;
+        roupa.valor = valor;
+        roupa.imagem = imagem;
+
+        roupa.save();
+
+        res.redirect('/roupas')
+        
+
+    }
+        
+)
 
 
 app.get(
     '/roupas',
-    (req,res) => {
-        res.json({
-            id:1,
-            peça:'Camisa',
-            tecido:'Algodão',
-            valor:50.00
-        });
+    async(req,res) => {
+        const roupas = await Roupa.findAll({raw:true});
+        res.render('listarRoupas',{roupas})
     }
 );
 
+app.get(
+    '/',
+    (req,res) => res.render('home')
+)
 
-
-app.listen(
-    3000,
-    () => console.log ('Servidor em execução')
-
+app.delete(
+  '/roupas/:id', 
+  async (req, res) => {
+    const id = req.params.id;
+    const roupa = await Roupa.findByPk(id);
+    await roupa.destroy();
+    res.redirect('/roupas');
+  }
 );
+
+
 
 
 async function conectarBD() {
@@ -83,3 +114,11 @@ async function conectarBD() {
 }
 
 conectarBD();
+
+app.listen(
+    3000,
+    () => console.log ('Servidor em execução')
+
+);
+
+
