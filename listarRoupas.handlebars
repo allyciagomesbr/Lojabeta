@@ -1,0 +1,76 @@
+<html>
+<head>
+    <title>Listar Roupas</title>
+
+    <style>
+        h1{
+            color:black;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 40px;
+        }
+
+        h2{
+            color: black;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        h2:hover{
+            color: gray;
+            transition: 0.5s;
+            font-size: 25px;
+        }
+        img{
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+        }
+
+        img:hover{
+            transform: scale(1.05);
+            transition: 0.5s;
+            box-shadow: 0 0 15px gray;
+        }
+
+        body{
+            background-color: ghostwhite;
+            height: 100vh;
+            font-family: monospace;
+        }
+
+        #divPrincipal{
+            display: flex;
+            flex-wrap: wrap;
+            height: 80%;
+            width: 70%;
+            margin: 0 auto;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        a{
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Listar Roupas</h1>
+
+    <a href="/roupas/cadastrar">Cadastrar roupa</a>
+
+    <div id="divPrincipal">
+    {{#each roupas}}
+        <div>
+            <img src="{{this.imagem}}">
+            <h2>{{this.nome}}</h2>
+        </div>
+    {{/each}}
+    </div>
+    
+</body>
+</html>
