@@ -48,15 +48,17 @@
             justify-content: center;
             align-items: center;
             gap: 20px;
-            background-color: white;
+            background-color: rgb(235, 122, 205);
             border-radius: 10px;
-            box-shadow: 0 0 10px gray;
+            box-shadow: 0 0 10px rgb(221, 216, 216);
         }
 
         a{
             font-size: 20px;
         }
     </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <h1>Listar Roupas</h1>
@@ -67,10 +69,18 @@
     {{#each roupas}}
         <div>
             <img src="{{this.imagem}}">
-            <h2>{{this.nome}}</h2>
+            <h2>{{this.peca}}</h2>
+
+            <a href="/roupas/{{this.id}}/editar"><i class="fa-solid fa-pen-to-square"></i></a>
+
+            <form action="/roupas/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+                <button type="submit"><i class="fa-solid fa-trash-can"></i></button>
+            </form>
         </div>
     {{/each}}
     </div>
+
+    <a href="/">Página Principal</a>
     
 </body>
 </html>
