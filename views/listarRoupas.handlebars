@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Listar Roupas</title>
+    <title>Cadastrar Roupa</title>
 
     <style>
         h1{
@@ -48,39 +48,45 @@
             justify-content: center;
             align-items: center;
             gap: 20px;
-            background-color: rgb(235, 122, 205);
+            background-color: white;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgb(221, 216, 216);
+            box-shadow: 0 0 10px gray;
         }
 
         a{
             font-size: 20px;
         }
     </style>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-    <h1>Listar Roupas</h1>
-
-    <a href="/roupas/cadastrar">Cadastrar roupa</a>
+    <h1>Cadastrar Roupa</h1>
 
     <div id="divPrincipal">
-    {{#each roupas}}
-        <div>
-            <img src="{{this.imagem}}">
-            <h2>{{this.peca}}</h2>
+        <form action="/roupas" method="post">
 
-            <a href="/roupas/{{this.id}}/editar"><i class="fa-solid fa-pen-to-square"></i></a>
+           
 
-            <form action="/roupas/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-                <button type="submit"><i class="fa-solid fa-trash-can"></i></button>
-            </form>
-        </div>
-    {{/each}}
+             <label for="iptPeca">Peça</label>
+            <input type="text" id="iptPeça" name="peca" required>
+
+            <br><br>
+
+             <label for="iptTecido">Tecido</label>
+            <input type="text" id="iptTecido" name="tecido" required>
+
+            <br><br>
+
+            <label for="iptValor">Valor (R$)</label>
+            <input type="number" id="iptValor" name="valor" step="0.01" required>
+
+            <br><br>
+            <label for="iptImagem">URL da imagem</label>
+            <input type="text" id="iptImagem" name="imagem" required>
+
+
+
+            <button type="submit">Cadastrar</button>
+        </form>
     </div>
-
-    <a href="/">Página Principal</a>
-    
 </body>
 </html>
